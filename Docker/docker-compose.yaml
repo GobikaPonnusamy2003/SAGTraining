@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    user: elasticsearch
+    networks:
+      - devportal-network
+    volumes:
+      - es-vol:/usr/share/elasticsearch/data
+    hostname: devportal-elastic
+     
+
+  devportal:
+    image: sagcr.azurecr.io/devportal:10.15
+    environment:
+      - SPRING_ELASTICSEARCH_REST_URIS=http://devportal-elastic:9200
+    networks:
+      - devportal-network
+    ports:
+      - "90:8083"
+    hostname: devportal-server
+
+
+networks:
+  devportal-network:
+    driver: bridge
+
+volumes:
+  es-vol:
