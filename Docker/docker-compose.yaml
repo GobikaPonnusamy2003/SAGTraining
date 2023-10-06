@@ -21,7 +21,7 @@ services:
     networks:
       - devportal-network
     ports:
-      - "90:8083"
+      - "80:8083"
     hostname: devportal-server
 
 
