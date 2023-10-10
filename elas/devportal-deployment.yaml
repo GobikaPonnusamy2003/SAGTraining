@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devportal-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devportal
+  template:
+    metadata:
+      labels:
+        app: devportal
+    spec:
+      containers:
+        - name: devportal
+          image: sagcr.azurecr.io/devportal:10.15
+          env:
+            - name: SPRING_ELASTICSEARCH_REST_URIS
+              value: "http://elasticsearch-service:9200"
+          ports:
+            - containerPort: 8083
